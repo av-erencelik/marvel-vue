@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import NavBar from './components/NavBar.vue'
 </script>
 
 <template>
-  <header>header</header>
+  <NavBar />
 
-  <RouterView />
+  <main class="content"><RouterView /></main>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.content {
+  padding-top: $navbar-height;
+}
+</style>

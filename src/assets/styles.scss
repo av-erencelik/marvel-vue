@@ -1,3 +1,22 @@
+@use 'reset';
+@use 'base';
+
 h1 {
-  color: red;
+  color: $primary;
+}
+body {
+  background-color: $bg-color;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-container {
+  max-width: $max-width;
+  margin: 0 auto;
 }
