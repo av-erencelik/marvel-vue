@@ -42,11 +42,11 @@ export default defineComponent({
       },
 
       700: {
-        itemsToShow: 3.5,
+        itemsToShow: 3,
         snapAlign: 'center'
       },
 
-      1024: {
+      1250: {
         itemsToShow: 5,
         snapAlign: 'start'
       }

@@ -2,9 +2,12 @@
 import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { Heart } from 'lucide-vue-next'
+import { useFavStore } from '@/stores/FavStore'
+import { HeartOff } from 'lucide-vue-next'
 
 const isOpen = ref(false)
 const modalRef = ref(null)
+const { favs, getIdExists, removeFav } = useFavStore()
 
 onClickOutside(modalRef, () => {
   isOpen.value = false
@@ -15,24 +18,83 @@ onClickOutside(modalRef, () => {
   <div class="drawer-container">
     <button class="drawer-button" @click.stop="isOpen = true">
       <Heart class="icon" :size="24" />
-      <span>0</span>
+      <span>{{ favs.length }}</span>
     </button>
     <transition name="drawer">
       <div v-if="isOpen" class="drawer-wrapper">
         <div class="drawer-overlay"></div>
         <div class="drawer-content" ref="modalRef">
           <!-- Drawer content goes here -->
-          <h2>Drawer Content</h2>
-          <p>This is the content of the drawer.</p>
+          <h2 class="title">Favourites</h2>
+          <div class="favs">
+            <div v-for="fav in favs" :key="fav.id" class="fav">
+              <div class="fav-image">
+                <img
+                  :src="fav.thumbnail.path + '.' + fav.thumbnail.extension"
+                  alt="fav.name"
+                  class="image"
+                />
+              </div>
+              <div class="fav-container">
+                <div class="fav-name">{{ fav.title }}</div>
+                <button
+                  class="fav-button active"
+                  v-if="getIdExists(fav.id)"
+                  @click="() => removeFav(fav.id)"
+                >
+                  <HeartOff :size="24" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </transition>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .drawer-container {
   position: relative;
+}
+
+.favs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.fav-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+  flex: 1;
+}
+
+.fav-button {
+  background-color: $bg-color-transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: $primary-color;
+  background: transparent;
+}
+
+.fav {
+  display: flex;
+  color: $text-color;
+  gap: 10px;
+}
+
+.image {
+  width: 65px;
+  height: 100%;
+  object-fit: cover;
 }
 
 .drawer-wrapper {
@@ -92,11 +154,10 @@ onClickOutside(modalRef, () => {
   position: absolute;
   top: 0;
   right: 0;
-  width: 250px;
+  width: 300px;
   height: 100%;
-  background-color: #fff;
+  background-color: $bg-drawer;
   padding: 20px;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   z-index: 9999;
   overflow-y: auto;
 }

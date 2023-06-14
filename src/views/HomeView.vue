@@ -8,7 +8,7 @@ const { isLoading, data } = useQuery({
   queryKey: ['todos'],
   queryFn: async () => {
     const response = await fetch(
-      `https://gateway.marvel.com/v1/public/comics?orderBy=-focDate&apikey=${
+      `https://gateway.marvel.com/v1/public/comics?orderBy=modified&apikey=${
         import.meta.env.VITE_API_KEY
       }`
     )
@@ -31,7 +31,7 @@ const { isLoading, data } = useQuery({
   </section>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .loading {
   height: 250px;
   width: 100%;
