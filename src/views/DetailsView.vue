@@ -49,7 +49,7 @@ const { isLoading, data, isFetching } = useQuery({
                 <Heart :size="24" />
               </button>
               <button
-                class="fav-button"
+                class="fav-button active"
                 v-else-if="getIdExists(data.data.results[0].id)"
                 @click="() => store.removeFav(data!.data.results[0].id)"
               >
@@ -92,6 +92,10 @@ const { isLoading, data, isFetching } = useQuery({
   color: $primary-color;
   font-size: 1.8rem;
   font-weight: 700;
+}
+
+.active {
+  color: $primary-color;
 }
 
 .title_fav {
