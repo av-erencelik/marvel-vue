@@ -10,8 +10,9 @@ const route = useRoute()
 const id = route.params.id
 const store = useFavStore()
 const { getIdExists } = storeToRefs(store)
-const { isLoading, data } = useQuery({
-  queryKey: ['todos'],
+const { isLoading, data, isFetching } = useQuery({
+  queryKey: ['comic'],
+  staleTime: 0,
   queryFn: async () => {
     const response = await fetch(
       `https://gateway.marvel.com:443/v1/public/comics/${id}?apikey=${import.meta.env.VITE_API_KEY}`
@@ -24,7 +25,7 @@ const { isLoading, data } = useQuery({
 </script>
 <template>
   <section class="custom-container">
-    <div v-if="isLoading" class="loading">
+    <div v-if="isLoading || isFetching" class="loading">
       <span class="title">Loading...</span>
     </div>
     <div v-else-if="data">
@@ -194,6 +195,10 @@ const { isLoading, data } = useQuery({
 
   .details__creators {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .details-thumbnail {
+    width: 320px;
+    height: 420px;
   }
 }
 </style>

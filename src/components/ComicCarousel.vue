@@ -37,7 +37,7 @@ export default defineComponent({
   data: () => ({
     breakpoints: {
       100: {
-        itemsToShow: 2,
+        itemsToShow: 1.5,
         snapAlign: 'center'
       },
 

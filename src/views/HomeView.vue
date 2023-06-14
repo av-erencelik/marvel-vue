@@ -4,8 +4,9 @@ import ComicCarousel from '@/components/ComicCarousel.vue'
 import { useQuery } from '@tanstack/vue-query'
 import type { ComicDatas } from '@/types/types'
 
-const { isLoading, data } = useQuery({
-  queryKey: ['todos'],
+const { isLoading, data, isFetching } = useQuery({
+  queryKey: ['comics'],
+  staleTime: 1000,
   queryFn: async () => {
     const response = await fetch(
       `https://gateway.marvel.com/v1/public/comics?orderBy=modified&apikey=${
@@ -13,7 +14,6 @@ const { isLoading, data } = useQuery({
       }`
     )
     const data: ComicDatas = await response.json()
-    console.log(data)
     return data
   }
 })
@@ -21,7 +21,7 @@ const { isLoading, data } = useQuery({
 
 <template>
   <TheBannerVue />
-  <section class="custom-container">
+  <section class="custom-container section">
     <div v-if="isLoading" class="loading">
       <span class="title">Loading...</span>
     </div>
@@ -43,5 +43,11 @@ const { isLoading, data } = useQuery({
   color: $primary-color;
   font-size: 1.8rem;
   font-weight: 700;
+}
+
+@media screen and (max-width: 768px) {
+  .section {
+    padding-left: 1rem;
+  }
 }
 </style>
