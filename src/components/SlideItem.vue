@@ -10,7 +10,7 @@
     <div class="details__container">
       <div class="details">
         <div class="details__texts">
-          <a class="details__title">{{ data.title }}</a>
+          <RouterLink :to="`/comic/${data.id}`" class="details__title">{{ data.title }}</RouterLink>
           <p class="details__description">{{ data.description }}</p>
         </div>
 
